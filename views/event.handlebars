@@ -1,0 +1,129 @@
+<div class="event-header" align="center"><span style="font-weight:bold; font-size:30px; color: #b3b3b3">Welcome to your {{events.Name}} Event</span>
+	<div id="back-to-home">
+	<a href= '/home/{{user_id}}' style="font-weight:bold; color: #4da6ff">Back To Home</a>
+	</div>
+</div>
+<div class="event" align="center">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Location</th>
+				<th>Participate</th>
+				<th>Total Expense</th>
+				<th>Event Share</th>
+				<th>Edit Event</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{events.Name}}</td>
+				<td>{{events.Category}}</td>
+				<td>{{events.Location}}</td>
+				<td>{{events.Participants}}</td>
+				<td>{{events.Total_Expense}}</td>
+				<td>{{events.Event_Share}}</td>
+				<td><a class="enter-edit" href="/event/{{event_id}}/update?user_id={{user_id}}"><button>Edit</button></button></th>
+			</tr>	
+		</tbody>
+	</table>
+</div>
+
+
+<div class="event-outerDiv">
+	<div class="addItem" align="center">
+		<form id = "itemAdd" action="/event/additem/{{event_id}}?user_id={{user_id}}" method = "post">
+			<h2>Add Your Item</h2>
+			<label><b>Description</b></label>
+  			<input type="text" name="Description"><br>
+  			<label><b>Quantity</b></label>
+  			<input type="number" name="Quantity" ><br>
+  			<label><b>Invoice Amount</b></label>
+ 			<input type="number" step="0.01" name="Invoice_Amount" ><br>
+ 			<button type="submit">Add</button>
+		</form>
+	</div>
+	<div class="inviteFriend" align="center">
+		<form id = "friendInvite" action ="/event/invitefriend/{{event_id}}?user_id={{user_id}}" method = "post">
+			<h2>Invite Your friends</h2>
+			<label><b>Email</b></label>
+  			<input type="email" name="Email"><br>
+  			<button type="submit">Send Invite</button>
+  			<br><span>Your friend must be a member of our website</span>
+		</form>
+		
+	</div>
+	<div style="clear: both;"></div>
+</div>
+
+
+<h2 align="center">Item:</h2>
+<div class="my-table" align="center">
+	<table>
+		<thead>
+			<tr>
+				<th>Description</th>
+				<th>Payer</th>
+				<th>Quantity</th>
+				<th>Invocie Amount</th>
+				<th>Edit Item</th>
+				<th>Delete Item</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each items}}
+			<tr>
+				<td>{{Description}}</td>
+				<td>{{First_Name}} {{Last_Name}}</td>
+				<td>{{Quantity}}</td>
+				<td>{{Invoice_Amount}}</td>
+				{{#ifeq ../user_id Payer_ID}}
+					<td><a class="enter-edit" href="/event/{{../../event_id}}/item/{{Item_ID}}?user_id={{../../user_id}}"><button>Edit</button></td>
+				{{else}}
+				
+					<td>N/A</td>
+				{{/ifeq}}
+				{{#ifeq ../user_id Payer_ID}}
+					<td><button onclick="deleteItem({{Item_ID}}, {{../../event_id}}, {{../../user_id}})">Delete</button></td>
+				{{else}}
+					<td>N/A</td>
+				{{/ifeq}}
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
+
+
+<h2 align="center">Participates:</h2>
+<div class="my-table" align="center">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each participates}}
+			<tr>
+				<td>{{First_Name}} {{Last_Name}}</td>
+				<td>{{Email}}</td>
+				<td>{{Phone}}</td>	
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div> 
+
+
+
+
+
+
+
+
+
+
